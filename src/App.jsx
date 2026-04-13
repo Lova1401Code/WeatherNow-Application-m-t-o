@@ -89,9 +89,9 @@ export default function App() {
   const heroOverlayStyle = useMemo(() => getHeroOverlayStyle(dark), [dark])
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
-      <div className="mx-auto flex min-h-screen w-full max-w-[1680px] flex-col lg:flex-row">
-        <section className="relative grid min-h-[46vh] w-full flex-1 grid-cols-1 overflow-hidden lg:min-h-screen">
+    <div className="h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white overflow-hidden">
+      <div className="mx-auto flex h-full w-full max-w-[1680px] flex-col lg:flex-row">
+        <section className="relative grid flex-1 w-full grid-cols-1 overflow-hidden lg:min-h-screen">
           <HeroBackdrop imageUrl={heroBackdrop.imageUrl} reactKey={heroBackdrop.reactKey} />
           <div
             className="pointer-events-none col-span-full row-span-full z-[1]"
