@@ -9,7 +9,7 @@ import HeroBackdrop from './components/HeroBackdrop.jsx'
 import { useWeather } from './hooks/useWeather.js'
 import { buildHourlyPreview } from './utils/buildHourlyPreview.js'
 import { getHeroBackdropMeta, getHeroOverlayStyle } from './utils/weatherTheme.js'
-import { loadRecentSearches, saveRecentSearch } from './utils/recentSearches.js'
+import { loadRecentSearches, saveRecentSearch, removeRecentSearch, clearRecentSearches } from './utils/recentSearches.js'
 
 const THEME_KEY = 'weathernow_theme'
 
@@ -73,6 +73,16 @@ export default function App() {
   }, [fetchWeather])
 
   const toggleTheme = useCallback(() => setDark((d) => !d), [])
+
+  const onRemoveRecent = useCallback((city) => {
+    const updated = removeRecentSearch(city)
+    setRecents(updated)
+  }, [])
+
+  const onClearRecents = useCallback(() => {
+    const updated = clearRecentSearches()
+    setRecents(updated)
+  }, [])
 
   const current = data?.current
   const location = data?.location
@@ -141,19 +151,40 @@ export default function App() {
 
           {recents.length ? (
             <div className="mt-4">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-white/50">
-                Recent searches
-              </p>
+              <div className="mb-2 flex items-center justify-between">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-white/50">
+                  Recent searches
+                </p>
+                <button
+                  type="button"
+                  onClick={onClearRecents}
+                  className="text-xs text-slate-500 hover:text-slate-700 dark:text-white/50 dark:hover:text-white/80"
+                >
+                  Clear all
+                </button>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {recents.map((city) => (
-                  <button
+                  <div
                     key={city}
-                    type="button"
-                    onClick={() => onSearch(city)}
-                    className="rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-medium text-slate-700 shadow-sm transition hover:border-slate-300 dark:border-white/15 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10"
+                    className="group flex items-center gap-1 rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-medium text-slate-700 shadow-sm transition hover:border-slate-300 dark:border-white/15 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10"
                   >
-                    {city}
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => onSearch(city)}
+                      className="flex-1 text-left"
+                    >
+                      {city}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onRemoveRecent(city)}
+                      className="ml-1 flex h-4 w-4 items-center justify-center rounded-full text-slate-400 opacity-0 transition-opacity hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-600 dark:hover:text-slate-200 group-hover:opacity-100"
+                      aria-label={`Remove ${city}`}
+                    >
+                      ×
+                    </button>
+                  </div>
                 ))}
               </div>
             </div>
