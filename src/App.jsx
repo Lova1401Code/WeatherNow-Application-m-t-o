@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar.jsx'
 import WeatherCard from './components/WeatherCard.jsx'
 import WeatherDetails from './components/WeatherDetails.jsx'
 import Loading from './components/Loading.jsx'
+import WeatherSkeleton from './components/WeatherSkeleton.jsx'
 import Footer from './components/Footer.jsx'
 import HeroBackdrop from './components/HeroBackdrop.jsx'
 import { useWeather } from './hooks/useWeather.js'
@@ -215,7 +216,7 @@ export default function App() {
             </div>
           ) : null}
 
-          {loading && data ? <Loading message="Updating forecast..." /> : null}
+          {loading && data ? <WeatherSkeleton /> : null}
 
           <div className="mt-6 flex-1">
             {data ? (
