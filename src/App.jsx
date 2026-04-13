@@ -130,7 +130,7 @@ export default function App() {
           </div>
         </section>
 
-        <aside className="flex w-full flex-col border-t border-slate-200/80 bg-white/75 p-5 shadow-[0_-12px_40px_rgba(0,0,0,0.08)] backdrop-blur-2xl dark:border-white/10 dark:bg-black/40 dark:shadow-none lg:max-w-md lg:border-l lg:border-t-0 lg:bg-black/35">
+        <aside className="flex w-full flex-col border-t border-slate-200/80 bg-white/75 p-5 shadow-[0_-12px_40px_rgba(0,0,0,0.08)] backdrop-blur-2xl dark:border-white/10 dark:bg-black/40 dark:shadow-none lg:max-w-md lg:border-l lg:border-t-0 lg:bg-black/35 lg:overflow-y-auto">
           <div className="hidden lg:block">
             <SearchBar
               onSearch={onSearch}
