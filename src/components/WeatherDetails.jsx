@@ -1,7 +1,11 @@
 import {
   Cloud,
+  CloudFog,
   CloudRain,
+  CloudSnow,
   Droplets,
+  MoonStar,
+  Sun,
   Thermometer,
   ThermometerSun,
   Wind,
@@ -10,9 +14,9 @@ import { formatTemperature } from '../utils/formatTemperature'
 
 function Row({ label, value, icon: Icon, iconClass }) {
   return (
-    <div className="flex items-center justify-between gap-3 border-b border-slate-200/80 py-3 dark:border-white/10 last:border-0">
-      <span className="text-sm font-medium text-slate-600 dark:text-white/70">{label}</span>
-      <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
+    <div className="flex items-center justify-between gap-3 border-b border-white/15 py-3 last:border-0">
+      <span className="text-sm font-medium text-white/85">{label}</span>
+      <div className="flex items-center gap-2 text-sm font-semibold text-white">
         <span>{value}</span>
         {Icon ? <Icon className={`h-5 w-5 shrink-0 ${iconClass || ''}`} strokeWidth={1.5} /> : null}
       </div>
@@ -20,17 +24,26 @@ function Row({ label, value, icon: Icon, iconClass }) {
   )
 }
 
-function HourRow({ time, iconUrl, text, temp }) {
+function resolveHourIcon(code, isDay) {
+  const c = Number(code)
+  if (c === 1000) return isDay ? Sun : MoonStar
+  if ([1030, 1135, 1147].includes(c)) return CloudFog
+  if ([1066, 1069, 1072, 1114, 1117, 1204, 1207, 1210, 1213, 1216, 1219, 1222, 1225].includes(c))
+    return CloudSnow
+  if ([1087, 1273, 1276, 1279, 1282].includes(c) || (c >= 1273 && c <= 1282)) return CloudRain
+  if ([1063, 1150, 1153, 1180, 1183, 1186, 1189, 1192, 1195, 1240, 1243, 1246].includes(c))
+    return CloudRain
+  return Cloud
+}
+
+function HourRow({ time, code, isDay, text, temp }) {
+  const Icon = resolveHourIcon(code, isDay)
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl px-2 py-2.5 text-sm text-slate-800 dark:text-white/90">
-      <span className="w-14 shrink-0 font-medium tabular-nums">{time}</span>
-      <div className="flex min-w-0 flex-1 items-center gap-2">
-        {iconUrl ? (
-          <img src={iconUrl} alt="" className="h-8 w-8 object-contain dark:brightness-0 dark:invert" />
-        ) : (
-          <CloudRain className="h-6 w-6 shrink-0 text-slate-500 dark:text-white/80" strokeWidth={1.25} />
-        )}
-        <span className="truncate text-slate-600 dark:text-white/75">{text}</span>
+    <div className="grid grid-cols-[52px_minmax(0,1fr)_50px] items-center gap-2 rounded-xl px-2 py-2.5 text-xs text-white sm:grid-cols-[58px_minmax(0,1fr)_56px] sm:gap-3 sm:text-sm">
+      <span className="shrink-0 font-medium tabular-nums">{time}</span>
+      <div className="flex min-w-0 items-center gap-2">
+        <Icon className="h-5 w-5 shrink-0 text-sky-300 sm:h-6 sm:w-6" strokeWidth={1.75} />
+        <span className="truncate text-white/90">{text}</span>
       </div>
       <span className="shrink-0 font-semibold tabular-nums">{temp}</span>
     </div>
@@ -57,7 +70,7 @@ export default function WeatherDetails({ current, forecastday, hoursPreview }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <p className="text-center text-xs font-medium tracking-wide text-slate-500 dark:text-white/55">
+      <p className="text-center text-xs font-medium tracking-wide text-slate-500 dark:text-white/80">
         Weather Details...
       </p>
       <p className="text-center text-sm font-semibold leading-snug text-slate-900 dark:text-white sm:text-base">
@@ -71,18 +84,18 @@ export default function WeatherDetails({ current, forecastday, hoursPreview }) {
             return (
               <div
                 key={fd.date}
-                className="flex min-w-[92px] flex-1 flex-col items-center rounded-2xl border border-slate-200/80 bg-white/40 px-2 py-2 text-center dark:border-white/10 dark:bg-white/5"
+                className="flex min-w-[92px] flex-1 flex-col items-center rounded-2xl border border-white/15 bg-slate-900/70 px-2 py-2 text-center"
               >
-                <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-white/55">
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-white/75">
                   {formatShortDay(fd.date)}
                 </span>
                 {ic ? (
-                  <img src={ic} alt="" className="my-1 h-9 w-9 object-contain dark:brightness-0 dark:invert" />
+                  <img src={ic} alt="" className="my-1 h-9 w-9 object-contain" />
                 ) : null}
-                <span className="text-sm font-semibold text-slate-900 dark:text-white">
+                <span className="text-sm font-semibold text-white">
                   {fd.day?.maxtemp_c != null ? `${Math.round(fd.day.maxtemp_c)}°` : '—'}
                 </span>
-                <span className="text-[11px] text-slate-500 dark:text-white/55">
+                <span className="text-[11px] text-white/70">
                   {fd.day?.mintemp_c != null ? `${Math.round(fd.day.mintemp_c)}°` : ''}
                 </span>
               </div>
@@ -91,7 +104,7 @@ export default function WeatherDetails({ current, forecastday, hoursPreview }) {
         </div>
       ) : null}
 
-      <div className="glass-surface mt-2 rounded-2xl px-3">
+      <div className="mt-2 rounded-2xl border border-white/15 bg-slate-900/88 px-3 py-1 shadow-[0_16px_36px_rgba(2,6,23,0.35)]">
         <Row
           label="Temp max"
           value={formatTemperature(today?.maxtemp_c)}
@@ -113,27 +126,28 @@ export default function WeatherDetails({ current, forecastday, hoursPreview }) {
         <Row label="Humidity" value={`${current.humidity ?? '—'}%`} icon={Droplets} />
         <Row label="Cloudy" value={`${current.cloud ?? '—'}%`} icon={Cloud} />
         <Row label="Wind" value={`${Math.round(current.wind_kph ?? 0)} km/h`} icon={Wind} />
-      </div>
 
-      {hoursPreview?.length ? (
-        <>
-          <div className="my-3 h-px w-full bg-slate-200 dark:bg-white/15" />
-          <p className="text-center text-xs font-medium tracking-wide text-slate-500 dark:text-white/55">
-            Today&apos;s Weather Forecast...
-          </p>
-          <div className="glass-surface premium-scroll max-h-64 overflow-y-auto rounded-2xl p-2 pr-1">
-            {hoursPreview.map((h) => (
-              <HourRow
-                key={h.time}
-                time={h.time}
-                iconUrl={iconFor(h.icon)}
-                text={h.text}
-                temp={formatTemperature(h.temp)}
-              />
-            ))}
-          </div>
-        </>
-      ) : null}
+        {hoursPreview?.length ? (
+          <>
+            <div className="my-3 h-px w-full bg-white/20" />
+            <p className="pb-2 text-center text-xs font-medium tracking-wide text-white/75">
+              Today&apos;s Weather Forecast...
+            </p>
+            <div className="premium-scroll max-h-64 overflow-y-scroll rounded-xl bg-slate-950/60 pr-2">
+              {hoursPreview.map((h) => (
+                <HourRow
+                  key={h.time}
+                  time={h.time}
+                  code={h.code}
+                  isDay={h.isDay}
+                  text={h.text}
+                  temp={formatTemperature(h.temp)}
+                />
+              ))}
+            </div>
+          </>
+        ) : null}
+      </div>
     </div>
   )
 }

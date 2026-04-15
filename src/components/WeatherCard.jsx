@@ -38,7 +38,7 @@ export default function WeatherCard({ location, current }) {
             <img
               src={iconUrl}
               alt=""
-              className="h-14 w-14 shrink-0 object-contain drop-shadow sm:h-16 sm:w-16 lg:h-20 lg:w-20 dark:brightness-0 dark:invert"
+              className="h-14 w-14 shrink-0 object-contain drop-shadow sm:h-16 sm:w-16 lg:h-20 lg:w-20"
               width={80}
               height={80}
             />

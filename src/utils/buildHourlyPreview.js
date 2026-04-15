@@ -19,6 +19,8 @@ export function buildHourlyPreview(payload) {
         hour12: false,
       }),
       icon: h.condition?.icon,
+      code: h.condition?.code,
+      isDay: Number(h.is_day) === 1,
       text: h.condition?.text,
       temp: h.temp_c,
     }))

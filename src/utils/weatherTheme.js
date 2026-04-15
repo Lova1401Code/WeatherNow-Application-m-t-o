@@ -24,7 +24,7 @@ function resolveBackdropKey(conditionCode, isDay) {
     rain: 'https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&w=2400&q=85',
     snow: 'https://images.unsplash.com/photo-1483664852095-d6cc6870702d?auto=format&fit=crop&w=2400&q=85',
     clearDay:
-      'https://images.unsplash.com/photo-1472120435266-53107fd0c44a?auto=format&fit=crop&w=2400&q=85',
+      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=2400&q=85',
     clearNight:
       'https://images.unsplash.com/photo-1505322022379-7c3353ee6291?auto=format&fit=crop&w=2400&q=85',
     cloud:
@@ -40,7 +40,7 @@ function resolveBackdropKey(conditionCode, isDay) {
     snow:
       'https://images.pexels.com/photos/688660/pexels-photo-688660.jpeg?auto=compress&cs=tinysrgb&w=2400',
     clearDay:
-      'https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?auto=compress&cs=tinysrgb&w=2400',
+      'https://images.pexels.com/photos/1323550/pexels-photo-1323550.jpeg?auto=compress&cs=tinysrgb&w=2400',
     clearNight:
       'https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg?auto=compress&cs=tinysrgb&w=2400',
     cloud:
