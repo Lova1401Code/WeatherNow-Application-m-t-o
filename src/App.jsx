@@ -150,10 +150,7 @@ export default function App() {
         </section>
 
         <aside className="premium-scroll relative flex w-full flex-col overflow-y-auto border-t border-slate-200/80 bg-white/75 p-5 shadow-[0_-12px_40px_rgba(0,0,0,0.08)] backdrop-blur-2xl dark:border-white/10 dark:bg-black/40 dark:shadow-none lg:max-w-md lg:border-l lg:border-t-0 lg:bg-black/35">
-          <div
-            className="pointer-events-none sticky top-0 z-20 -mt-5 mb-4 h-8 w-full bg-gradient-to-b from-white/80 to-transparent dark:from-slate-950/70"
-            aria-hidden
-          />
+          <div className="mb-4 h-2 w-full" aria-hidden />
           <div className="hidden lg:block">
             <SearchBar
               onSearch={onSearch}
