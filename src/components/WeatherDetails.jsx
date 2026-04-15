@@ -10,7 +10,7 @@ import { formatTemperature } from '../utils/formatTemperature'
 
 function Row({ label, value, icon: Icon, iconClass }) {
   return (
-    <div className="flex items-center justify-between gap-3 border-b border-slate-200 py-3 last:border-0 dark:border-white/10">
+    <div className="flex items-center justify-between gap-3 border-b border-slate-200/80 py-3 transition-colors hover:border-slate-300 dark:border-white/10 dark:hover:border-white/20 last:border-0">
       <span className="text-sm font-medium text-slate-600 dark:text-white/70">{label}</span>
       <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
         <span>{value}</span>
@@ -22,7 +22,7 @@ function Row({ label, value, icon: Icon, iconClass }) {
 
 function HourRow({ time, iconUrl, text, temp }) {
   return (
-    <div className="flex items-center justify-between gap-3 py-2.5 text-sm text-slate-800 dark:text-white/90">
+    <div className="flex items-center justify-between gap-3 rounded-xl px-2 py-2.5 text-sm text-slate-800 transition-all duration-200 hover:bg-white/50 hover:shadow-sm dark:text-white/90 dark:hover:bg-white/5">
       <span className="w-14 shrink-0 font-medium tabular-nums">{time}</span>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         {iconUrl ? (
@@ -65,7 +65,7 @@ export default function WeatherDetails({ current, forecastday, hoursPreview }) {
       </p>
 
       {days.length ? (
-        <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+        <div className="premium-scroll mt-2 flex gap-2 overflow-x-auto pb-1">
           {days.map((fd) => {
             const ic = iconFor(fd.day?.condition?.icon)
             return (
@@ -91,7 +91,7 @@ export default function WeatherDetails({ current, forecastday, hoursPreview }) {
         </div>
       ) : null}
 
-      <div className="mt-2">
+      <div className="glass-surface mt-2 rounded-2xl px-3">
         <Row
           label="Temp max"
           value={formatTemperature(today?.maxtemp_c)}
@@ -121,7 +121,7 @@ export default function WeatherDetails({ current, forecastday, hoursPreview }) {
           <p className="text-center text-xs font-medium tracking-wide text-slate-500 dark:text-white/55">
             Today&apos;s Weather Forecast...
           </p>
-          <div className="max-h-64 overflow-y-auto pr-1">
+          <div className="glass-surface premium-scroll max-h-64 overflow-y-auto rounded-2xl p-2 pr-1">
             {hoursPreview.map((h) => (
               <HourRow
                 key={h.time}

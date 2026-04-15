@@ -100,12 +100,16 @@ export default function App() {
   const heroOverlayStyle = useMemo(() => getHeroOverlayStyle(dark), [dark])
 
   return (
-    <div className="h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white overflow-hidden">
+    <div className="h-screen overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
       <div className="mx-auto flex h-full w-full max-w-[1680px] flex-col lg:flex-row">
-        <section className="relative grid flex-1 w-full grid-cols-1 overflow-hidden lg:min-h-screen">
+        <section className="relative grid w-full flex-1 grid-cols-1 overflow-hidden lg:min-h-screen">
           <HeroBackdrop imageUrl={heroBackdrop.imageUrl} reactKey={heroBackdrop.reactKey} />
+          <div className="pointer-events-none absolute inset-0 z-[1]" aria-hidden>
+            <div className="float-slow absolute -left-20 top-[10%] h-64 w-64 rounded-full bg-sky-300/20 blur-3xl" />
+            <div className="float-delayed absolute -right-16 bottom-[12%] h-72 w-72 rounded-full bg-indigo-300/20 blur-3xl" />
+          </div>
           <div
-            className="pointer-events-none col-span-full row-span-full z-[1]"
+            className="pointer-events-none col-span-full row-span-full z-[2]"
             style={heroOverlayStyle}
             aria-hidden
           />
@@ -129,7 +133,7 @@ export default function App() {
               ) : data ? (
                 <WeatherCard location={location} current={current} />
               ) : (
-                <div className="max-w-lg rounded-2xl border border-slate-200/60 bg-white/55 p-6 text-slate-900 shadow-lg backdrop-blur-md dark:border-white/20 dark:bg-black/30 dark:text-white">
+                <div className="glass-surface max-w-lg rounded-3xl p-6 text-slate-900 dark:text-white">
                   <p className="text-lg font-semibold">Bienvenue sur WeatherNow</p>
                   <p className="mt-2 text-sm text-slate-700 dark:text-white/85">
                     Recherchez une ville, ou utilisez votre position pour afficher la météo en temps réel,
@@ -141,7 +145,11 @@ export default function App() {
           </div>
         </section>
 
-        <aside className="flex w-full flex-col border-t border-slate-200/80 bg-white/75 p-5 shadow-[0_-12px_40px_rgba(0,0,0,0.08)] backdrop-blur-2xl dark:border-white/10 dark:bg-black/40 dark:shadow-none lg:max-w-md lg:border-l lg:border-t-0 lg:bg-black/35 lg:overflow-y-auto">
+        <aside className="premium-scroll relative flex w-full flex-col overflow-y-auto border-t border-slate-200/80 bg-white/75 p-5 shadow-[0_-12px_40px_rgba(0,0,0,0.08)] backdrop-blur-2xl dark:border-white/10 dark:bg-black/40 dark:shadow-none lg:max-w-md lg:border-l lg:border-t-0 lg:bg-black/35">
+          <div
+            className="pointer-events-none sticky top-0 z-20 -mt-5 mb-4 h-8 w-full bg-gradient-to-b from-white/80 to-transparent dark:from-slate-950/70"
+            aria-hidden
+          />
           <div className="hidden lg:block">
             <SearchBar
               onSearch={onSearch}

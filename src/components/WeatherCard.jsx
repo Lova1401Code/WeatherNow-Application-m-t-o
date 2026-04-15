@@ -20,7 +20,7 @@ export default function WeatherCard({ location, current }) {
     : null
 
   return (
-    <div className="mt-auto flex flex-col gap-6 lg:mt-0 lg:flex-1 lg:justify-end">
+    <div className="glass-surface mt-auto flex flex-col gap-6 rounded-3xl p-5 lg:mt-0 lg:flex-1 lg:justify-end lg:p-7">
       <div className="flex flex-wrap items-end gap-4 sm:gap-6">
         <p className="text-7xl font-semibold leading-none tracking-tight text-slate-900 drop-shadow-sm dark:text-white sm:text-8xl lg:text-9xl">
           {formatTemperature(current.temp_c)}
