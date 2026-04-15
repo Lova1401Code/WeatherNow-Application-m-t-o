@@ -103,7 +103,11 @@ export default function App() {
     <div className="h-screen overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
       <div className="mx-auto flex h-full w-full max-w-[1680px] flex-col lg:flex-row">
         <section className="relative grid w-full flex-1 grid-cols-1 overflow-hidden lg:min-h-screen">
-          <HeroBackdrop imageUrl={heroBackdrop.imageUrl} reactKey={heroBackdrop.reactKey} />
+          <HeroBackdrop
+            imageUrl={heroBackdrop.imageUrl}
+            fallbackUrl={heroBackdrop.fallbackUrl}
+            reactKey={heroBackdrop.reactKey}
+          />
           <div className="pointer-events-none absolute inset-0 z-[1]" aria-hidden>
             <div className="float-slow absolute -left-20 top-[10%] h-64 w-64 rounded-full bg-sky-300/20 blur-3xl" />
             <div className="float-delayed absolute -right-16 bottom-[12%] h-72 w-72 rounded-full bg-indigo-300/20 blur-3xl" />
