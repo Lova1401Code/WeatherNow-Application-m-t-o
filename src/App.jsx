@@ -100,14 +100,15 @@ export default function App() {
   const heroOverlayStyle = useMemo(() => getHeroOverlayStyle(dark), [dark])
 
   return (
-    <div className="h-screen overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
-      <div className="mx-auto flex h-full w-full max-w-[1680px] flex-col lg:flex-row">
-        <section className="relative grid w-full flex-1 grid-cols-1 overflow-hidden lg:min-h-screen">
-          <HeroBackdrop
-            imageUrl={heroBackdrop.imageUrl}
-            fallbackUrl={heroBackdrop.fallbackUrl}
-            reactKey={heroBackdrop.reactKey}
-          />
+    <div className="min-h-screen overflow-x-hidden overflow-y-auto bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white lg:h-screen lg:overflow-hidden">
+      <div className="relative mx-auto flex min-h-screen w-full max-w-[1680px] flex-col overflow-hidden lg:h-full lg:min-h-0 lg:flex-row">
+        <HeroBackdrop
+          imageUrl={heroBackdrop.imageUrl}
+          fallbackUrl={heroBackdrop.fallbackUrl}
+          reactKey={heroBackdrop.reactKey}
+          className="absolute inset-0"
+        />
+        <section className="relative grid min-h-[52vh] w-full grid-cols-1 overflow-hidden lg:min-h-screen lg:flex-1">
           <div className="pointer-events-none absolute inset-0 z-[1]" aria-hidden>
             <div className="float-slow absolute -left-20 top-[10%] h-64 w-64 rounded-full bg-sky-300/20 blur-3xl" />
             <div className="float-delayed absolute -right-16 bottom-[12%] h-72 w-72 rounded-full bg-indigo-300/20 blur-3xl" />
@@ -118,7 +119,7 @@ export default function App() {
             aria-hidden
           />
 
-          <div className="col-span-full row-span-full z-10 flex min-h-0 flex-col p-4 sm:p-6 lg:p-10">
+          <div className="col-span-full row-span-full z-10 flex flex-col p-4 sm:p-6 lg:min-h-0 lg:p-10">
             <div className="flex items-center justify-between gap-3 lg:max-w-xl">
               <Header dark={dark} onToggleTheme={toggleTheme} />
             </div>
@@ -131,13 +132,13 @@ export default function App() {
               />
             </div>
 
-            <div className="mt-auto flex flex-1 flex-col justify-end pt-10 lg:mt-0 lg:flex-1 lg:justify-end lg:pt-16">
+            <div className="mt-8 flex flex-col justify-end pb-3 lg:mt-0 lg:flex-1 lg:pt-16">
               {loading && !data ? (
                 <Loading />
               ) : data ? (
                 <WeatherCard location={location} current={current} />
               ) : (
-                <div className="glass-surface max-w-lg rounded-3xl p-6 text-slate-900 dark:text-white">
+                <div className="max-w-lg rounded-3xl border border-white/20 bg-black/25 p-6 text-white backdrop-blur-md">
                   <p className="text-lg font-semibold">Bienvenue sur WeatherNow</p>
                   <p className="mt-2 text-sm text-slate-700 dark:text-white/85">
                     Recherchez une ville, ou utilisez votre position pour afficher la météo en temps réel,
@@ -149,9 +150,10 @@ export default function App() {
           </div>
         </section>
 
-        <aside className="premium-scroll relative flex w-full flex-col overflow-y-auto border-t border-slate-200/80 bg-white/90 p-5 shadow-[0_-12px_40px_rgba(0,0,0,0.08)] backdrop-blur-md dark:border-white/10 dark:bg-slate-900 dark:shadow-none lg:max-w-md lg:border-l lg:border-t-0 lg:bg-slate-900">
-          <div className="mb-4 h-2 w-full" aria-hidden />
-          <div className="hidden lg:block">
+        <aside className="premium-scroll relative flex w-full flex-col border-t border-white/25 bg-black/18 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_-12px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl lg:basis-[38%] lg:max-w-[560px] lg:border-l lg:border-t-0 lg:overflow-y-auto">
+
+          <div className="relative z-10 mb-4 h-2 w-full" aria-hidden />
+          <div className="relative z-10 hidden lg:block">
             <SearchBar
               onSearch={onSearch}
               onUseLocation={onUseLocation}
@@ -160,15 +162,15 @@ export default function App() {
           </div>
 
           {recents.length ? (
-            <div className="mt-4">
+            <div className="relative z-10 mt-4">
               <div className="mb-2 flex items-center justify-between">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-white/50">
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/70">
                   Recent searches
                 </p>
                 <button
                   type="button"
                   onClick={onClearRecents}
-                  className="text-xs text-slate-500 hover:text-slate-700 dark:text-white/50 dark:hover:text-white/80"
+                  className="text-xs text-white/65 hover:text-white/90"
                 >
                   Clear all
                 </button>
@@ -177,7 +179,7 @@ export default function App() {
                 {recents.map((city) => (
                   <div
                     key={city}
-                    className="group flex items-center gap-1 rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-medium text-slate-700 shadow-sm transition hover:border-slate-300 dark:border-white/15 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10"
+                    className="group flex items-center gap-1 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-medium text-white/90 shadow-sm transition hover:bg-white/20"
                   >
                     <button
                       type="button"
@@ -189,7 +191,7 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => onRemoveRecent(city)}
-                      className="ml-1 flex h-4 w-4 items-center justify-center rounded-full text-slate-400 opacity-0 transition-opacity hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-600 dark:hover:text-slate-200 group-hover:opacity-100"
+                      className="ml-1 flex h-4 w-4 items-center justify-center rounded-full text-white/55 opacity-0 transition-opacity hover:bg-white/20 hover:text-white group-hover:opacity-100"
                       aria-label={`Remove ${city}`}
                     >
                       ×
@@ -201,14 +203,14 @@ export default function App() {
           ) : null}
 
           {geoMessage ? (
-            <p className="mt-4 rounded-xl border border-amber-200/80 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-400/40 dark:bg-amber-500/10 dark:text-amber-100">
+            <p className="relative z-10 mt-4 rounded-xl border border-amber-200/80 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-400/40 dark:bg-amber-500/10 dark:text-amber-100">
               {geoMessage}
             </p>
           ) : null}
 
           {notFound ? (
             <div
-              className="mt-6 rounded-2xl border border-red-200/80 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-400/30 dark:bg-red-500/10 dark:text-red-50"
+              className="relative z-10 mt-6 rounded-2xl border border-red-200/80 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-400/30 dark:bg-red-500/10 dark:text-red-50"
               role="alert"
             >
               <p className="font-semibold">City not found</p>
@@ -218,16 +220,16 @@ export default function App() {
 
           {error ? (
             <div
-              className="mt-6 rounded-2xl border border-red-200/80 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-400/30 dark:bg-red-500/10 dark:text-red-50"
+              className="relative z-10 mt-6 rounded-2xl border border-red-200/80 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-400/30 dark:bg-red-500/10 dark:text-red-50"
               role="alert"
             >
               {error}
             </div>
           ) : null}
 
-          {loading && data ? <WeatherSkeleton /> : null}
+          {loading && data ? <div className="relative z-10"><WeatherSkeleton /></div> : null}
 
-          <div className="mt-6 flex-1">
+          <div className="relative z-10 mt-6 flex-1">
             {data ? (
               <WeatherDetails
                 current={current}
@@ -237,7 +239,9 @@ export default function App() {
             ) : null}
           </div>
 
-          <Footer />
+          <div className="relative z-10">
+            <Footer />
+          </div>
         </aside>
       </div>
     </div>

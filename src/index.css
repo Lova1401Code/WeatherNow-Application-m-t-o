@@ -15,7 +15,8 @@
       linear-gradient(140deg, #020617 10%, #0b1120 55%, #111827 100%);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }
 

@@ -50,61 +50,58 @@ function HourRow({ time, code, isDay, text, temp }) {
   )
 }
 
-function formatShortDay(dateStr) {
-  if (!dateStr) return ''
-  const d = new Date(`${dateStr}T12:00:00`)
-  if (Number.isNaN(d.getTime())) return String(dateStr)
-  return d.toLocaleDateString(undefined, { weekday: 'short' })
-}
-
 export default function WeatherDetails({ current, forecastday, hoursPreview }) {
   if (!current) return null
 
   const today = forecastday?.[0]?.day
   const conditionText = String(current.condition?.text || '—').toUpperCase()
-
-  const iconFor = (path) =>
-    path ? String(path).replace(/^\/\//, 'https://') : null
-
-  const days = Array.isArray(forecastday) ? forecastday.slice(0, 3) : []
+  const upcomingDays = Array.isArray(forecastday) ? forecastday.slice(1, 3) : []
+  const iconFor = (path) => (path ? String(path).replace(/^\/\//, 'https://') : null)
+  const formatShortDay = (dateStr) => {
+    if (!dateStr) return ''
+    const d = new Date(`${dateStr}T12:00:00`)
+    if (Number.isNaN(d.getTime())) return String(dateStr)
+    return d.toLocaleDateString(undefined, { weekday: 'short' })
+  }
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-center text-xs font-medium tracking-wide text-slate-500 dark:text-white/80">
+    <div className="flex flex-col gap-3">
+      <p className="text-center text-2xl font-medium tracking-wide text-white/95">
         Weather Details...
       </p>
-      <p className="text-center text-sm font-semibold leading-snug text-slate-900 dark:text-white sm:text-base">
+      <p className="text-center text-2xl font-semibold leading-snug text-white">
         {conditionText}
       </p>
 
-      {days.length ? (
-        <div className="premium-scroll mt-2 flex gap-2 overflow-x-auto pb-1">
-          {days.map((fd) => {
-            const ic = iconFor(fd.day?.condition?.icon)
-            return (
-              <div
-                key={fd.date}
-                className="flex min-w-[92px] flex-1 flex-col items-center rounded-2xl border border-white/15 bg-slate-900/70 px-2 py-2 text-center"
-              >
-                <span className="text-[11px] font-semibold uppercase tracking-wide text-white/75">
-                  {formatShortDay(fd.date)}
-                </span>
-                {ic ? (
-                  <img src={ic} alt="" className="my-1 h-9 w-9 object-contain" />
-                ) : null}
-                <span className="text-sm font-semibold text-white">
-                  {fd.day?.maxtemp_c != null ? `${Math.round(fd.day.maxtemp_c)}°` : '—'}
-                </span>
-                <span className="text-[11px] text-white/70">
-                  {fd.day?.mintemp_c != null ? `${Math.round(fd.day.mintemp_c)}°` : ''}
-                </span>
-              </div>
-            )
-          })}
+      {upcomingDays.length ? (
+        <div className="premium-scroll mt-1 flex gap-2 overflow-x-auto pb-1">
+          {upcomingDays.map((fd) => (
+            <div
+              key={fd.date}
+              className="flex min-w-[110px] flex-1 flex-col items-center rounded-2xl border border-white/25 bg-black/20 px-2 py-2 text-center backdrop-blur-sm"
+            >
+              <span className="text-[11px] font-semibold uppercase tracking-wide text-white/75">
+                {formatShortDay(fd.date)}
+              </span>
+              {iconFor(fd.day?.condition?.icon) ? (
+                <img
+                  src={iconFor(fd.day?.condition?.icon)}
+                  alt=""
+                  className="my-1 h-9 w-9 object-contain"
+                />
+              ) : null}
+              <span className="text-sm font-semibold text-white">
+                {fd.day?.maxtemp_c != null ? `${Math.round(fd.day.maxtemp_c)}°` : '—'}
+              </span>
+              <span className="text-[11px] text-white/70">
+                {fd.day?.mintemp_c != null ? `${Math.round(fd.day.mintemp_c)}°` : ''}
+              </span>
+            </div>
+          ))}
         </div>
       ) : null}
 
-      <div className="mt-2 rounded-2xl border border-white/15 bg-slate-900/88 px-3 py-1 shadow-[0_16px_36px_rgba(2,6,23,0.35)]">
+      <div className="mt-1 rounded-2xl border border-white/18 bg-transparent px-3 py-1 backdrop-blur-sm">
         <Row
           label="Temp max"
           value={formatTemperature(today?.maxtemp_c)}
@@ -130,10 +127,10 @@ export default function WeatherDetails({ current, forecastday, hoursPreview }) {
         {hoursPreview?.length ? (
           <>
             <div className="my-3 h-px w-full bg-white/20" />
-            <p className="pb-2 text-center text-xs font-medium tracking-wide text-white/75">
+            <p className="pb-2 text-center text-2xl font-medium tracking-wide text-white/85">
               Today&apos;s Weather Forecast...
             </p>
-            <div className="premium-scroll max-h-64 overflow-y-scroll rounded-xl bg-slate-950/60 pr-2">
+            <div className="premium-scroll max-h-64 overflow-y-scroll rounded-xl bg-transparent pr-2">
               {hoursPreview.map((h) => (
                 <HourRow
                   key={h.time}

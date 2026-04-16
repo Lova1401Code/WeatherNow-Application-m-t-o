@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
  * - hauteur % / flex mal résolue sur certains navigateurs
  * - empilement du bg de la section par-dessus l’image (z-0)
  */
-export default function HeroBackdrop({ imageUrl, fallbackUrl, reactKey }) {
+export default function HeroBackdrop({ imageUrl, fallbackUrl, reactKey, className = '' }) {
   const [src, setSrc] = useState(imageUrl)
   const [failed, setFailed] = useState(false)
 
@@ -24,7 +24,7 @@ export default function HeroBackdrop({ imageUrl, fallbackUrl, reactKey }) {
   }
 
   return (
-    <div key={reactKey} className="relative z-0 col-span-full row-span-full min-h-0 min-w-0">
+    <div key={reactKey} className={`relative z-0 min-h-0 min-w-0 ${className}`}>
       <div className="absolute inset-0 bg-slate-900" aria-hidden />
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
         {src ? (

@@ -24,7 +24,7 @@ function resolveBackdropKey(conditionCode, isDay) {
     rain: 'https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&w=2400&q=85',
     snow: 'https://images.unsplash.com/photo-1483664852095-d6cc6870702d?auto=format&fit=crop&w=2400&q=85',
     clearDay:
-      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=2400&q=85',
+      'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=2400&q=85',
     clearNight:
       'https://images.unsplash.com/photo-1505322022379-7c3353ee6291?auto=format&fit=crop&w=2400&q=85',
     cloud:
